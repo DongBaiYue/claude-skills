@@ -194,3 +194,26 @@ export no_proxy=localhost,bj.bcebos.com,su.bcebos.com,pypi.tuna.tsinghua.edu.cn,
    ```
 
    PR 创建成功后，将输出的 URL 展示给用户。
+
+---
+
+## 删除已合入的分支
+
+此功能需用户在 PR 合入后**手动触发**（如输入"删除分支"、"clean up branch"等）。
+
+触发后，确认当前分支或由用户指定要删除的分支名，展示以下信息等待确认：
+
+> 即将删除分支 `<branch-name>`（本地 + 远程），基础分支切换至 `<base-branch>`，是否确认？
+
+确认后执行：
+
+```bash
+# 切换回基础分支
+git checkout <base-branch>
+
+# 删除本地分支
+git branch -d <branch-name>
+
+# 删除远程分支
+git push dongbaiyue --delete <branch-name>
+```
