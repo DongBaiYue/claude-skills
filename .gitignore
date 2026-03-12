@@ -1,2 +1,4 @@
 .claude/settings.local.json
 .claude/setup/credentials
+__pycache__/
+*.pyc
