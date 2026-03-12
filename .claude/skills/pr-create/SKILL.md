@@ -1,6 +1,6 @@
 ---
 name: pr-create
-description: 创建格式规范的 GitHub Pull Request。当用户需要创建 PR、提交变更审查，或输入 /pr 时触发。
+description: 创建格式规范的 GitHub Pull Request。当用户需要创建 PR、提交变更审查，或输入 /pr 时触发。也支持更新已有 PR（触发词：更新PR、推送到已有PR、update PR）。
 allowed-tools: Bash(git:*), Bash(gh:*), Read, Grep, Glob
 ---
 
@@ -197,6 +197,44 @@ export no_proxy=localhost,bj.bcebos.com,su.bcebos.com,pypi.tuna.tsinghua.edu.cn,
 
 ---
 
+## 更新已有 PR
+
+此功能需用户**手动触发**（如输入"更新PR"、"推送到已有PR"、"update PR"等）。
+
+1. **检测当前分支是否有 open PR**：
+
+   ```bash
+   gh pr view --json number,title,url,state,baseRefName
+   ```
+
+   若无 open PR，终止流程并提示用户当前分支没有关联的开放 PR。
+
+2. **展示 PR 信息**，等待用户确认是否继续：
+
+   > - PR 编号：`#<number>`
+   > - 标题：`<title>`
+   > - 目标分支：`<baseRefName>`
+   > - URL：`<url>`
+
+3. **确认变更文件 → 生成 commit message → 提交**：
+
+   执行与"创建 PR"相同的步骤2、3流程：逐一列出变更文件，向用户确认纳入范围，生成 commit message 并展示给用户确认后执行：
+
+   ```bash
+   git add <confirmed-files>
+   git commit -m "<generated-message>"
+   ```
+
+4. **推送到远程**：
+
+   ```bash
+   git push dongbaiyue <branch-name>
+   ```
+
+5. **展示结果**：推送成功后，展示 PR URL 并提示更新成功。
+
+---
+
 ## 删除已合入的分支
 
 此功能需用户在 PR 合入后**手动触发**（如输入"删除分支"、"clean up branch"等）。
@@ -217,3 +255,11 @@ git branch -d <branch-name>
 # 删除远程分支
 git push dongbaiyue --delete <branch-name>
 ```
+
+
+Format your code, run pre-commit before commit.
+
+Cherry-Pick PR 规范
+如果是 Cherry-Pick 到 release 分支：
+- 标题格式：`[Cherry-Pick][原标签] 原标题(#原PR号)`
+- 示例：`[Cherry-Pick][CI] Add check trigger and logic(#5191)`
