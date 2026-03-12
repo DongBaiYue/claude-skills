@@ -29,8 +29,8 @@ wget https://doc.bce.baidu.com/bos-optimization/linux-bcecmd-0.5.10.zip
 unzip linux-bcecmd-0.5.10.zip
 ln -s $(pwd)/linux-bcecmd-0.5.10/bcecmd /usr/sbin/bcecmd
 
-# 配置 AK/SK（替换为你自己的，只需配置一次）
-printf "<YOUR_AK>\n<YOUR_SK>\n\nnx\nbcebos.nx.nxjncloud.com:8080\nno\n\n\nno\n\n\n\n" | bcecmd -c
+# 凭证从仓库 .claude/setup/credentials 读取，运行一次即可完成配置
+bash <仓库根目录>/.claude/setup/setup.sh
 ```
 
 ---
