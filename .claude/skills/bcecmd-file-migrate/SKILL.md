@@ -37,22 +37,34 @@ bash <仓库根目录>/.claude/setup/setup.sh
 
 ## 迁移步骤
 
+打包方式根据目录大小选择：
+- **小目录**（几 GB 以内）：用 `-czf` 压缩，节省存储和传输带宽
+- **大目录**（几十 GB 以上）：用 `-cf` 不压缩，省去 CPU 开销，速度快很多
+
 **源机器：**
 ```bash
-# 1. 打包目录（以 /root/workspace/project 为例）
+# 小目录：压缩打包
 tar -czf project.tar.gz -C /root/workspace project
-
-# 2. 上传
 bcecmd bos cp ./project.tar.gz bos:/nx-yongqiang/personal/liuyi39/project.tar.gz
+
+# 大目录：不压缩打包（推荐后台运行）
+nohup bash -c '
+  tar -cf /root/workspace/project.tar -C /root/workspace project \
+  && bcecmd bos cp /root/workspace/project.tar bos:/nx-yongqiang/personal/liuyi39/project.tar \
+  && echo "完成"
+' > /tmp/migrate.log 2>&1 &
+# 查看进度
+watch -n 10 'ls -lh /root/workspace/project.tar'
 ```
 
 **目标机器：**
 ```bash
-# 1. 下载
+# 下载
 bcecmd bos cp bos:/nx-yongqiang/personal/liuyi39/project.tar.gz ./project.tar.gz
 
-# 2. 解压
-tar -xzf project.tar.gz -C /root/workspace/
+# 解压（压缩包用 -xzf，非压缩包用 -xf）
+tar -xzf project.tar.gz -C /root/workspace/   # .tar.gz
+tar -xf  project.tar    -C /root/workspace/   # .tar
 ```
 
 ---
