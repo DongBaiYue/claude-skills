@@ -11,6 +11,7 @@ git clone https://github.com/DongBaiYue/claude-skills.git
 # 2. 复制到你的项目根目录
 cp -r claude-skills/.claude your-project/
 cp -r claude-skills/memory your-project/
+cp claude-skills/.cursorrules your-project/
 
 # 3. 在项目目录启动 Claude Code
 cd your-project && claude
@@ -29,6 +30,8 @@ bash setup.sh
 ## 目录结构
 
 ```
+.cursorrules                   # Agent 行为准则
+
 .claude/
 ├── rules/                    # 始终加载的规则/速查
 │   ├── commands.md           # 常用命令速查
