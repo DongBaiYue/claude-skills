@@ -23,7 +23,7 @@ cd your-project && claude
 ```bash
 cd your-project/.claude/setup
 cp credentials.template credentials
-# 编辑 credentials 填入 BCE_AK、BCE_SK、GITHUB_TOKEN
+# 编辑 credentials 填入 BCE_AK、BCE_SK、GITHUB_TOKEN、GIT_USER_NAME、GIT_USER_EMAIL
 bash setup.sh
 ```
 

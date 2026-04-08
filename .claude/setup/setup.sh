@@ -28,4 +28,11 @@ if [ -n "$GITHUB_TOKEN" ]; then
   echo "✓ GitHub token 已配置"
 fi
 
+# 配置 Git 用户
+if [ -n "$GIT_USER_NAME" ] && [ -n "$GIT_USER_EMAIL" ]; then
+  git config --global user.name "$GIT_USER_NAME"
+  git config --global user.email "$GIT_USER_EMAIL"
+  echo "✓ Git 用户已配置: $GIT_USER_NAME <$GIT_USER_EMAIL>"
+fi
+
 echo "完成，当前机器凭证配置就绪。"
