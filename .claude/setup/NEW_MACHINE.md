@@ -1,5 +1,7 @@
 # 新机器复现环境
 
+export IS_SANDBOX=1
+ducc --dangerously-skip-permissions
 在新机器上启动 Claude Code 后，输入以下提示词（替换括号内的值）：
 
 ```
@@ -8,9 +10,7 @@
    https_proxy=http://agent.baidu.com:8188 wget -qO /tmp/bootstrap.sh https://raw.githubusercontent.com/DongBaiYue/claude-skills/master/.claude/setup/bootstrap.sh
 2. 运行：bash /tmp/bootstrap.sh <BCE_AK> <BCE_SK> <GITHUB_TOKEN>
 
-BCE_AK: <你的 AK>
-BCE_SK: <你的 SK>
-GITHUB_TOKEN: <你的 token>
+AK/SK 从 credentials 文件里查
 ```
 
 脚本会自动完成：安装 bcecmd → 下载环境包（128G）→ 解压 → 配置凭证。
