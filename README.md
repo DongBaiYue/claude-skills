@@ -10,7 +10,6 @@ git clone https://github.com/DongBaiYue/claude-skills.git
 
 # 2. 复制到你的项目根目录
 cp -r claude-skills/.claude your-project/
-cp -r claude-skills/memory your-project/
 cp claude-skills/.cursorrules your-project/
 
 # 3. 在项目目录启动 Claude Code
@@ -18,6 +17,8 @@ cd your-project && claude
 ```
 
 `.claude/` 在项目根目录会自动加载。
+
+**Memory 路径**: 参考文档统一放在 `/root/paddlejob/workspace/env_run/liuyi39/memory/`，无需复制到每个项目。如需修改路径，编辑 `.claude/rules/reference-index.md`。
 
 **可选：配置凭证**（用于 bcecmd-file-migrate、pr-create）
 ```bash
@@ -35,12 +36,13 @@ bash setup.sh
 .claude/
 ├── rules/                    # 始终加载的规则/速查
 │   ├── commands.md           # 常用命令速查
-│   └── reference-index.md    # 文档索引
+│   └── reference-index.md    # 文档索引（含 memory 路径配置）
 ├── skills/                   # 按需触发的 skills
 │   └── <skill-name>/SKILL.md
 └── setup/                    # 环境配置脚本
 
-memory/                       # 详细参考文档
+# Memory（统一路径，多项目共享）
+/root/paddlejob/workspace/env_run/liuyi39/memory/
 ├── paddlepaddle.md           # PaddlePaddle 构建/架构
 └── eb5.md                    # EB5 XPU 训练
 ```

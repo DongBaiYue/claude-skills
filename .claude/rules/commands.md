@@ -67,6 +67,6 @@ pre-commit run --files $(git diff --name-only)
 
 ## 更多参考
 
-详细文档见 `memory/` 目录：
-- PaddlePaddle 架构/构建 → `memory/paddlepaddle.md`
-- EB5 XPU 训练 → `memory/eb5.md`
+详细文档见 `$PROJECT_ROOT/memory/` 目录：
+- PaddlePaddle 架构/构建 → `$PROJECT_ROOT/memory/paddlepaddle.md`
+- EB5 XPU 训练 → `$PROJECT_ROOT/memory/eb5.md`

@@ -1,13 +1,15 @@
 ---
 name: reference-index
-description: 参考文档索引，指向 memory/ 目录下的详细文档
+description: 参考文档索引，指向 memory 目录下的详细文档
 ---
 
 # 参考文档索引
 
+**Memory 路径**: `/root/paddlejob/workspace/env_run/liuyi39/`
+
 ## PaddlePaddle 架构
 
-**文件**: `memory/paddlepaddle.md`
+**文件**: `/root/paddlejob/workspace/env_run/liuyi39/memory/paddlepaddle.md`
 
 - 核心组件目录说明
 - Eager/Static 执行模式
@@ -22,7 +24,7 @@ description: 参考文档索引，指向 memory/ 目录下的详细文档
 
 ## EB5 XPU 预训练
 
-**文件**: `memory/eb5.md`
+**文件**: `/root/paddlejob/workspace/env_run/liuyi39/memory/eb5.md`
 
 - 项目目标与进度
 - 目录结构
