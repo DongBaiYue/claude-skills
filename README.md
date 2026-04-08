@@ -1,6 +1,30 @@
 # Claude Skills
 
-存放 Claude Code / Ducc 自定义 Skill 和 Rule 文件的仓库。
+Claude Code / Ducc 配置仓库，包含 Skills、Rules 和参考文档。
+
+## 快速开始
+
+```bash
+# 1. 克隆仓库
+git clone https://github.com/DongBaiYue/claude-skills.git
+
+# 2. 复制到你的项目根目录
+cp -r claude-skills/.claude your-project/
+cp -r claude-skills/memory your-project/
+
+# 3. 在项目目录启动 Claude Code
+cd your-project && claude
+```
+
+`.claude/` 在项目根目录会自动加载。
+
+**可选：配置凭证**（用于 bcecmd-file-migrate、pr-create）
+```bash
+cd your-project/.claude/setup
+cp credentials.template credentials
+# 编辑 credentials 填入 BCE_AK、BCE_SK、GITHUB_TOKEN
+bash setup.sh
+```
 
 ## 目录结构
 
@@ -24,7 +48,3 @@ memory/                       # 详细参考文档
 |------|----------|------|
 | Rule | 始终加载 | 常用命令速查、文档索引 |
 | Skill | 按描述触发 | 多步骤复杂任务 |
-
-## 使用方式
-
-将本仓库克隆到你的项目目录下，或在 Claude Code 的 settings 中配置 skills 路径。
