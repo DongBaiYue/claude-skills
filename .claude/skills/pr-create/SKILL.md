@@ -26,11 +26,36 @@ allowed-tools: Bash(git:*), Bash(gh:*), Read, Grep, Glob
 
 示例：`[XPU][Fix] moe_permute_kernel: add return_expert_indices and expert_indices params`
 
-## 环境配置
+## 环境自检
 
-在执行主流程前，确认以下环境已就绪。
+进入主流程前，**必须按顺序自动执行**以下检查，缺项则自动补全，失败则终止并提示用户。
 
-### 1. gh CLI 安装与认证
+### 1. 代理配置
+
+```bash
+echo $http_proxy
+```
+
+若为空，自动设置：
+
+```bash
+export http_proxy=http://agent.baidu.com:8188 && export https_proxy=$http_proxy
+```
+
+### 2. git 用户配置
+
+```bash
+git config user.name && git config user.email
+```
+
+若未配置，提示用户提供用户名和邮箱，然后设置：
+
+```bash
+git config --global user.name "liuyi39"
+git config --global user.email "liuyi39@baidu.com"
+```
+
+### 3. gh CLI 安装与认证
 
 检查 `gh` 是否安装：
 
@@ -38,7 +63,7 @@ allowed-tools: Bash(git:*), Bash(gh:*), Read, Grep, Glob
 gh --version
 ```
 
-若未安装，优先尝试直接下载二进制
+若未安装，自动下载：
 
 ```bash
 export http_proxy=http://agent.baidu.com:8188 && export https_proxy=$http_proxy
@@ -48,44 +73,31 @@ cp /tmp/gh_2.47.0_linux_amd64/bin/gh /usr/local/bin/gh
 gh --version
 ```
 
-由于机器可能多人公用，避免使用 `gh auth login`（会写入全局配置影响他人），改用环境变量临时传入 token，仅对当前 session 生效：
+检查 `GH_TOKEN` 是否已设置：
+
+```bash
+echo $GH_TOKEN
+```
+
+若未设置，提示用户提供 GitHub token，然后：
 
 ```bash
 export GH_TOKEN=<your_token>
 ```
 
-`gh` CLI 会自动识别 `GH_TOKEN`，session 结束后自动失效，不影响其他用户。
+由于机器可能多人共用，避免使用 `gh auth login`（会写入全局配置影响他人），`gh` CLI 会自动识别 `GH_TOKEN`，session 结束后自动失效。
 
-### 2. git 用户配置
-
-确认 git 用户信息已配置：
+### 4. Fork remote 检查
 
 ```bash
-git config user.name
-git config user.email
+git remote -v
 ```
 
-若未配置，执行（替换为自己的信息）：
+若不存在用户的 fork remote，提示用户添加：
 
 ```bash
-git config --global user.name "liuyi39"
-git config --global user.email "liuyi39@baidu.com"
+git remote add <username> https://${GH_TOKEN}@github.com/<username>/<repo>.git
 ```
-
-### 3. 网络访问
-
-若无法访问 GitHub，尝试配置代理：
-
-```bash
-# 推荐（更稳定）
-export http_proxy=http://agent.baidu.com:8188 && export https_proxy=$http_proxy
-
-# 备选
-export http_proxy=http://agent.baidu.com:8891 && export https_proxy=$http_proxy
-export no_proxy=localhost,bj.bcebos.com,su.bcebos.com,pypi.tuna.tsinghua.edu.cn,paddle-ci.gz.bcebos.com
-```
-
-推送和 `gh` 命令执行时均需确保代理已设置。
 
 ---
 
@@ -108,7 +120,7 @@ export no_proxy=localhost,bj.bcebos.com,su.bcebos.com,pypi.tuna.tsinghua.edu.cn,
    ```
 
 2. **分析变更**，确定以下内容：
-   - 类型：这是什么类型的变更（参考步骤1的 type 表）？
+   - 类型：这是什么类型的变更？
    - 摘要：变更做了什么？
    - 范围：涉及哪些文件或模块？
 
@@ -144,6 +156,12 @@ export no_proxy=localhost,bj.bcebos.com,su.bcebos.com,pypi.tuna.tsinghua.edu.cn,
 
    ```bash
    git add <confirmed-files>
+   pre-commit run --files <confirmed-files>
+   ```
+
+   **pre-commit 必须通过**，若失败需修复后重新 `git add` 再运行，直至全部通过后才可 commit。不可使用 `--no-verify` 跳过。
+
+   ```bash
    git commit -m "<generated-message>"
    ```
 
@@ -222,6 +240,12 @@ export no_proxy=localhost,bj.bcebos.com,su.bcebos.com,pypi.tuna.tsinghua.edu.cn,
 
    ```bash
    git add <confirmed-files>
+   pre-commit run --files <confirmed-files>
+   ```
+
+   **pre-commit 必须通过**，若失败需修复后重新 `git add` 再运行，直至全部通过后才可 commit。不可使用 `--no-verify` 跳过。
+
+   ```bash
    git commit -m "<generated-message>"
    ```
 
@@ -256,10 +280,7 @@ git branch -d <branch-name>
 git push dongbaiyue --delete <branch-name>
 ```
 
-
-Format your code, run pre-commit before commit.
-
-Cherry-Pick PR 规范
+## Cherry-Pick PR 规范
 如果是 Cherry-Pick 到 release 分支：
 - 标题格式：`[Cherry-Pick][原标签] 原标题(#原PR号)`
 - 示例：`[Cherry-Pick][CI] Add check trigger and logic(#5191)`
