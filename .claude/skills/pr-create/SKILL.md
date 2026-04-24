@@ -193,7 +193,17 @@ git remote add <username> https://${GH_TOKEN}@github.com/<username>/<repo>.git
    cat .github/PULL_REQUEST_TEMPLATE.md 2>/dev/null || cat .github/pull_request_template.md 2>/dev/null
    ```
 
-   若存在模板，按模板格式填写；若无，使用步骤3的 commit message bullet 列表作为 body。
+   若存在模板，按模板格式填写，但仍需遵循下面的叙事原则；若无模板，按下述结构生成 body。
+
+   **PR body 结构**（5 段，按序组织）：
+
+   1. **一句话结论** — 做什么+核心效果+默认行为是否改变
+   2. **问题** — 可复现代码 + 结果对比表格，再附一行因果链（`根因 → … → 现象`）
+   3. **方案** — 思路(what) → 对比(why this, 如有替代方案) → 接口+示例(how)
+   4. **修改文件** — 表格含"改动类型"列（新增/修改/if-else）
+   5. **影响分析** — 正确性 + 性能
+
+   **叙事原则**：演示先于解释；方案分层递进；因果链单行箭头。
 
    **创建前向用户确认**，展示以下信息并等待确认：
 
